@@ -2,10 +2,10 @@
 SoftwareSerial Serial1(3, 2);
 
 #define relay 13
-#define tv 12
 
-int sms_flag1, sms_flag;
-int relay_flag, tv_flag;
+
+int sms_flag;
+int relay_flag0;
 
 void setup()
 {
@@ -17,7 +17,8 @@ void setup()
   Serial1.println("ATE0");
   delay(500);
   pinMode(relay, OUTPUT);
-  pinMode(tv, OUTPUT);
+  
+
 }
 
 void loop()
@@ -25,27 +26,19 @@ void loop()
   //Serial1.println("AT");
   //delay(500);
   serialEvent();
-  if (relay_flag == 1 and sms_flag == 0)
-  {
-    senssms("Light Turned ON");
-    sms_flag = 1;
-  }
-  else if (relay_flag == 0 and sms_flag == 1)
-  {
-    senssms("Light Turned OFF");
-    sms_flag = 0;
-  }
 
-  if (tv_flag == 1 and sms_flag1 == 0)
-  {
-    senssms("Light Turned ON");
-    sms_flag1 = 1;
-  }
-  else if (tv_flag == 0 and sms_flag1 == 1)
-  {
-    senssms("Light Turned OFF");
-    sms_flag1 = 0;
-  }
+  
+
+  
+  
+
+
+
+
+
+
+
+
 
 }
 
@@ -55,7 +48,7 @@ void serialEvent()
   while (Serial1.available())
   {
     char ch = Serial1.read();
-    str += ch;
+    str += ch;I
     Serial.print(ch);
 
     if (str.indexOf("*LIGHT ON#") >= 0)
@@ -70,16 +63,7 @@ void serialEvent()
       relay_flag = 0;
     }
 
-    else if (str.indexOf("*TV ON#")>=0)
-    {
-      digitalWrite(tv, HIGH);
-      tv_flag = 1;
-    }
 
-    else if (str.indexOf("*TV OFF#")>=0)
-    {
-      digitalWrite(tv, LOW);
-      tv_flag = 0;
     }
   }
 }
